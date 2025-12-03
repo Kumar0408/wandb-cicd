@@ -1,0 +1,18 @@
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main # Specify the target branch for the merge
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Perform actions after merge
+        run: |
+          echo "A Pull Request was merged into the main branch!"
+          # Add your desired commands here, e.g., deploy, build, etc.
