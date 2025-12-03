@@ -1,3 +1,4 @@
+name: merge-workflow
 on:
   pull_request:
     types: [closed]
