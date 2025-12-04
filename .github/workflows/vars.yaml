@@ -21,3 +21,10 @@ jobs:
         run : echo "PAYLOAD:\n${PAYLOAD}\n"
         env:
           PAYLOAD: ${{ toJSON(github.event) }}
+      - name: show pusher details
+        run : |
+          echo "Pusher "${PUSHER_NAME} pushed the commit with email "${PUSHER_EMAIL}
+        env:
+          PUSHER_NAME: ${{ github.event.pusher.name }}
+          PUSHER_EMAIL: ${{ github.event.pusher.email }}
+
