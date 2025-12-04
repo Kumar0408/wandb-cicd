@@ -27,17 +27,10 @@ jobs:
             pip install -r requirements.txt
           fi
 
-      - name: Debug conda info
-        run: |
-          conda info
-          conda env list
-          conda list
-          which python || true
-
       - name: Run pytest in `app`
         run: |
           # Run pytest inside the created conda env to ensure pytest is available
-          conda run -n test-env pytest app --junitxml=pytest-report.xml -q
+           pytest app --junitxml=pytest-report.xml -q
         env:
           CI: true
 
