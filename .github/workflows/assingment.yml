@@ -1,0 +1,36 @@
+name: ChatOps
+on: issue_comment 
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+env:
+  MAGIC_COMMENT: "/bug" # this is a parameter you can change
+
+jobs:
+  see-comment:
+    # this filters for only comments made on a pull request
+    if: (github.event.issue.pull_request != null)
+    runs-on: ubuntu-latest
+    steps:
+    - name: filter for magic comment
+      id: filter
+      if: contains(github.event.comment.body, env.MAGIC_COMMENT)
+      run: echo "bug comment detected"
+      
+
+    - name: Label with  GitHub API
+      if: steps.filter.outcome == 'success' 
+      uses: actions/github-script@v6
+      with:
+          script: |
+            const labelsToAdd = ["bug"];
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: labelsToAdd,
+            });
